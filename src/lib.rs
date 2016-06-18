@@ -60,20 +60,23 @@ impl Iterator for PrimeIter
 
 	fn next(&mut self) -> Option<Self::Item>
 	{
-		if self.primes.last() == None
+		if let Some(&last) = self.primes.last()
+		{
+			for next in ((last+1)..).filter(|i|i&1 != 0)
+			{
+				if self.primes.iter().take_while(|&&i|i*i <= next).all(|&p|next%p != 0)
+				{
+					self.primes.push(next);
+					return Some(next);
+				}
+			}
+		}
+		else
 		{
 			self.primes.push(2);
 			return Some(2);
 		}
-		'outer: for num in ((self.primes.last().unwrap()+1)..).filter(|i|*i%2!=0)
-		{
-			if self.primes.iter().take_while(|i|*i**i<=num).any(|i|num%i==0)
-			{
-				continue 'outer;
-			}
-			self.primes.push(num);
-			return Some(num);
-		}
+
 		None
 	}
 }
