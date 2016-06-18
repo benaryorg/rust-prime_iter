@@ -45,7 +45,7 @@ impl PrimeIter
 	/// let iter = PrimeIter::new();
 	/// ```
 	///
-	pub fn new()->PrimeIter
+	pub fn new() -> PrimeIter
 	{
 		PrimeIter
 		{
@@ -58,9 +58,9 @@ impl Iterator for PrimeIter
 {
 	type Item = u64;
 
-	fn next(&mut self)->Option<Self::Item>
+	fn next(&mut self) -> Option<Self::Item>
 	{
-		if self.primes.last()==None
+		if self.primes.last() == None
 		{
 			self.primes.push(2);
 			return Some(2);
